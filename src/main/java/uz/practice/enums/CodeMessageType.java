@@ -2,5 +2,6 @@ package uz.practice.enums;
 
 public enum CodeMessageType {
     MESSAGE,
-    EDIT
+    EDIT,
+    MESSAGE_VIDEO
 }

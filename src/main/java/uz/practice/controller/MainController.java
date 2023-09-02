@@ -31,7 +31,7 @@ public class MainController extends TelegramLongPollingBot {
                     this.sendMsg(generalController.handle(data, message.getChatId(), message.getMessageId()));
                 }
             }
-        } else {
+        } else if (update.hasMessage()){
             Message message = update.getMessage();
             String text = message.getText();
 
@@ -63,6 +63,10 @@ public class MainController extends TelegramLongPollingBot {
             switch (codeMessage.getType()) {
                 case MESSAGE -> execute(codeMessage.getSendMessage());
                 case EDIT -> execute(codeMessage.getEditMessageText());
+                case MESSAGE_VIDEO -> {
+                    execute(codeMessage.getSendMessage());
+                    execute(codeMessage.getSendVideo());
+                }
             }
         } catch (TelegramApiException e) {
             e.printStackTrace();

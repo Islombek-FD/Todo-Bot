@@ -1,10 +1,14 @@
 package uz.practice.controller;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import uz.practice.dto.CodeMessage;
 import uz.practice.enums.CodeMessageType;
 import uz.practice.util.InlineButtonUtil;
+
+import java.io.File;
 
 public class GeneralController {
     public CodeMessage handle(String text, Long chatId, Integer messageId) {
@@ -33,7 +37,15 @@ public class GeneralController {
                         + "Yokiy manabu videoni ko'ring ";
                 sendMessage.setText(msg);
                 sendMessage.disableWebPagePreview();
-                codeMessage.setType(CodeMessageType.MESSAGE);
+
+                SendVideo sendVideo = new SendVideo();
+                sendVideo.setChatId(chatId);
+                File file = new File("files/test_video.mp4");
+                sendVideo.setVideo(new InputFile(file, "video.mp4"));
+                sendVideo.setCaption("Test uchun video!");
+                codeMessage.setSendVideo(sendVideo);
+
+                codeMessage.setType(CodeMessageType.MESSAGE_VIDEO);
             }
             case "/settings" -> {
                 sendMessage.setText("Assosiy Nastroykalar!");
